@@ -50,7 +50,7 @@
     [path closePath];
     
     // set the fill color
-    [[NSColor colorWithDeviceWhite:1 alpha:FILL_OPACITY] setFill];
+    [[NSColor colorWithSRGBRed:(39.0/256.0) green:(40.0/256.0) blue:(34.0/256.0) alpha:FILL_OPACITY] setFill];
     [path fill];
     
     [NSGraphicsContext saveGraphicsState];
@@ -60,7 +60,7 @@
     [clip addClip];
     
     [path setLineWidth:LINE_THICKNESS * 2];
-    [[NSColor whiteColor] setStroke];
+    [[NSColor colorWithSRGBRed:(39.0/256.0) green:(40.0/256.0) blue:(34.0/256.0) alpha:FILL_OPACITY] setStroke];
     [path stroke];
     
     [NSGraphicsContext restoreGraphicsState];
