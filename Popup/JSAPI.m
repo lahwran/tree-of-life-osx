@@ -34,7 +34,6 @@
 
 - (void)panel_hidden {
     [[self.panel.web_view windowScriptObject] evaluateWebScript:@"on_panel_hidden()"];
-    [[[self.panel.web_view windowScriptObject] valueForKey:@"handlers"] callWebScriptMethod:@"on_panel_hidden" withArguments:[NSArray array]];
 }
 
 
