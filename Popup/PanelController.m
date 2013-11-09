@@ -124,9 +124,9 @@
         panelRect.size.height = [height integerValue] + 5;
         panelRect.origin.x = roundf(NSMaxX(statusRect) - NSWidth(panelRect));
         panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect);
-    
-        if (NSMaxX(panelRect) > (NSMaxX(screenRect))) {
-            panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect));
+        
+        if (NSMinX(panelRect) <= 0) {
+            panelRect.origin.x -= (NSMaxX(panelRect) - (NSMaxX(screenRect))) + 5;
         }
     
         //[self.contents setFrame:contentsFrame];
