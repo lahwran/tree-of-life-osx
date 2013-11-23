@@ -54,6 +54,10 @@
     [[self.panel.web_view windowScriptObject] evaluateWebScript:@"on_disconnected()"];
 }
 
+- (void)connected {
+    [[self.panel.web_view windowScriptObject] evaluateWebScript:@"on_connected()"];
+}
+
 // ****************
 // exposed api methods
 

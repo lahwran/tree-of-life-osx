@@ -29,6 +29,7 @@
 - (void)panel_shown;
 - (void)panel_hidden;
 - (void)disconnected;
+- (void)connected;
 
 - (void)setPanelShown:(BOOL)shown;
 - (void)setMenuText:(NSString*)json;

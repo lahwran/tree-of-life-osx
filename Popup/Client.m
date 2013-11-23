@@ -42,6 +42,7 @@
 
 - (void)socket:(GCDAsyncSocket*)socket didConnectToHost:(NSString *)host port:(uint16_t)port {
     self.status = @"connected";
+    [self.jsapi performSelector:@selector(connected)];
     self.delay = 0.1;
 }
 
