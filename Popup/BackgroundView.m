@@ -1,10 +1,10 @@
 #import "BackgroundView.h"
 
-#define FILL_OPACITY 0.9f
+#define FILL_OPACITY 0.95f
 #define STROKE_OPACITY 1.0f
 
 #define LINE_THICKNESS 1.0f
-#define CORNER_RADIUS 6.0f
+#define CORNER_RADIUS 10.0f
 
 #define SEARCH_INSET 10.0f
 
@@ -12,7 +12,7 @@
 
 @implementation BackgroundView
 
-@synthesize arrowX = _arrowX;
+@synthesize panelCenterX = _panelCenterX;
 
 #pragma mark -
 
@@ -21,34 +21,35 @@
     NSRect contentRect = NSInsetRect([self bounds], LINE_THICKNESS, LINE_THICKNESS);
     NSBezierPath *path = [NSBezierPath bezierPath];
     
-    [path moveToPoint:NSMakePoint(_arrowX, NSMaxY(contentRect))];
-    [path lineToPoint:NSMakePoint(_arrowX + ARROW_WIDTH / 2, NSMaxY(contentRect) - ARROW_HEIGHT)];
-    [path lineToPoint:NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMaxY(contentRect) - ARROW_HEIGHT)];
+    // jump to top center
+    [path moveToPoint:NSMakePoint(_panelCenterX, NSMaxY(contentRect))];
     
-    NSPoint topRightCorner = NSMakePoint(NSMaxX(contentRect), NSMaxY(contentRect) - ARROW_HEIGHT);
-    [path curveToPoint:NSMakePoint(NSMaxX(contentRect), NSMaxY(contentRect) - ARROW_HEIGHT - CORNER_RADIUS)
-         controlPoint1:topRightCorner controlPoint2:topRightCorner];
+    // line to top right (no curve)
+    [path lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMaxY(contentRect))];
     
+    // then down to the beginning of the bottom right corner
     [path lineToPoint:NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)];
     
+    // draw the bottom right corner curve
     NSPoint bottomRightCorner = NSMakePoint(NSMaxX(contentRect), NSMinY(contentRect));
     [path curveToPoint:NSMakePoint(NSMaxX(contentRect) - CORNER_RADIUS, NSMinY(contentRect))
          controlPoint1:bottomRightCorner controlPoint2:bottomRightCorner];
     
+    // then draw a line over to the bottom of the bottom left corner
     [path lineToPoint:NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMinY(contentRect))];
     
+    // draw the bottom left corner
     [path curveToPoint:NSMakePoint(NSMinX(contentRect), NSMinY(contentRect) + CORNER_RADIUS)
          controlPoint1:contentRect.origin controlPoint2:contentRect.origin];
     
-    [path lineToPoint:NSMakePoint(NSMinX(contentRect), NSMaxY(contentRect) - ARROW_HEIGHT - CORNER_RADIUS)];
+    // draw up to the top left corner (no curve)
+    [path lineToPoint:NSMakePoint(NSMinX(contentRect), NSMaxY(contentRect))];
     
-    NSPoint topLeftCorner = NSMakePoint(NSMinX(contentRect), NSMaxY(contentRect) - ARROW_HEIGHT);
-    [path curveToPoint:NSMakePoint(NSMinX(contentRect) + CORNER_RADIUS, NSMaxY(contentRect) - ARROW_HEIGHT)
-         controlPoint1:topLeftCorner controlPoint2:topLeftCorner];
-    
-    [path lineToPoint:NSMakePoint(_arrowX - ARROW_WIDTH / 2, NSMaxY(contentRect) - ARROW_HEIGHT)];
+    // then back to the center
+    [path lineToPoint:NSMakePoint(_panelCenterX, NSMaxY(contentRect))];
     [path closePath];
     
+    // set the fill color
     [[NSColor colorWithDeviceWhite:1 alpha:FILL_OPACITY] setFill];
     [path fill];
     
@@ -68,9 +69,9 @@
 #pragma mark -
 #pragma mark Public accessors
 
-- (void)setArrowX:(NSInteger)value
+- (void)setPanelCenterX:(NSInteger)value
 {
-    _arrowX = value;
+    _panelCenterX = value;
     [self setNeedsDisplay:YES];
 }
 

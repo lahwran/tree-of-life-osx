@@ -2,15 +2,17 @@
 #import "BackgroundView.h"
 #import "StatusItemView.h"
 #import "MenubarController.h"
+#import "TrackerInterface.h"
+#import "TextFieldDelegate.h"
 
-#define OPEN_DURATION .15
-#define CLOSE_DURATION .1
+#define OPEN_DURATION 1
+#define CLOSE_DURATION 0
 
 #define SEARCH_INSET 17
 
-#define POPUP_HEIGHT 122
-#define PANEL_WIDTH 280
-#define MENU_ANIMATION_DURATION .1
+#define POPUP_HEIGHT 50
+#define PANEL_WIDTH 500
+#define MENU_ANIMATION_DURATION 0
 
 #pragma mark -
 
@@ -18,8 +20,13 @@
 
 @synthesize backgroundView = _backgroundView;
 @synthesize delegate = _delegate;
-@synthesize searchField = _searchField;
-@synthesize textField = _textField;
+@synthesize contents = _contents;
+@synthesize entry_box = _entry_box;
+@synthesize top_box = _top_box;
+@synthesize trackerInterface = _trackerInterface;
+
+@synthesize entry_box_delegate = _entry_box_delegate;
+
 
 #pragma mark -
 
@@ -35,7 +42,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSControlTextDidChangeNotification object:self.searchField];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSControlTextDidChangeNotification object:self.entry_box];
 }
 
 #pragma mark -
@@ -52,12 +59,12 @@
     [panel setBackgroundColor:[NSColor clearColor]];
     
     // Resize panel
-    NSRect panelRect = [[self window] frame];
-    panelRect.size.height = POPUP_HEIGHT;
-    [[self window] setFrame:panelRect display:NO];
+    [self panelSize];
     
     // Follow search string
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(runSearch) name:NSControlTextDidChangeNotification object:self.searchField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateInput) name:NSControlTextDidChangeNotification object:self.entry_box];
+    _entry_box_delegate = [[TextFieldDelegate alloc] initWithDelegate:self];
+    self.entry_box.delegate = _entry_box_delegate;
 }
 
 #pragma mark - Public accessors
@@ -72,6 +79,9 @@
     if (_hasActivePanel != flag)
     {
         _hasActivePanel = flag;
+        if (self.trackerInterface != nil) {
+            [self.trackerInterface indicateDisplay:_hasActivePanel];
+        }
         
         if (_hasActivePanel)
         {
@@ -99,49 +109,6 @@
     }
 }
 
-- (void)windowDidResize:(NSNotification *)notification
-{
-    NSWindow *panel = [self window];
-    NSRect statusRect = [self statusRectForWindow:panel];
-    NSRect panelRect = [panel frame];
-    
-    CGFloat statusX = roundf(NSMidX(statusRect));
-    CGFloat panelX = statusX - NSMinX(panelRect);
-    
-    self.backgroundView.arrowX = panelX;
-    
-    NSRect searchRect = [self.searchField frame];
-    searchRect.size.width = NSWidth([self.backgroundView bounds]) - SEARCH_INSET * 2;
-    searchRect.origin.x = SEARCH_INSET;
-    searchRect.origin.y = NSHeight([self.backgroundView bounds]) - ARROW_HEIGHT - SEARCH_INSET - NSHeight(searchRect);
-    
-    if (NSIsEmptyRect(searchRect))
-    {
-        [self.searchField setHidden:YES];
-    }
-    else
-    {
-        [self.searchField setFrame:searchRect];
-        [self.searchField setHidden:NO];
-    }
-    
-    NSRect textRect = [self.textField frame];
-    textRect.size.width = NSWidth([self.backgroundView bounds]) - SEARCH_INSET * 2;
-    textRect.origin.x = SEARCH_INSET;
-    textRect.size.height = NSHeight([self.backgroundView bounds]) - ARROW_HEIGHT - SEARCH_INSET * 3 - NSHeight(searchRect);
-    textRect.origin.y = SEARCH_INSET;
-    
-    if (NSIsEmptyRect(textRect))
-    {
-        [self.textField setHidden:YES];
-    }
-    else
-    {
-        [self.textField setFrame:textRect];
-        [self.textField setHidden:NO];
-    }
-}
-
 #pragma mark - Keyboard
 
 - (void)cancelOperation:(id)sender
@@ -149,42 +116,85 @@
     self.hasActivePanel = NO;
 }
 
-- (void)runSearch
+- (void)updateInput
 {
-    NSString *searchFormat = @"";
-    NSString *searchString = [self.searchField stringValue];
-    if ([searchString length] > 0)
-    {
-        searchFormat = NSLocalizedString(@"Search for ‘%@’…", @"Format for search request");
+    NSString *input = [self.entry_box stringValue];
+    self.trackerInterface.input = input;
+    
+}
+
+- (void)setInput:(NSString*) newValue {
+    if (![[self.entry_box stringValue] isEqualToString:newValue]) {
+        [self.entry_box setStringValue:newValue];
     }
-    NSString *searchRequest = [NSString stringWithFormat:searchFormat, searchString];
-    [self.textField setStringValue:searchRequest];
+}
+
+- (void)panelSize {
+    for (int i=0; i<2; i++) {
+        NSTextFieldCell *cell = [self.contents cell];
+    
+        NSSize textSize = [cell cellSizeForBounds:NSMakeRect(0, 0, FLT_MAX, FLT_MAX)];
+        
+        NSRect contentsRect = [self.contents bounds];
+        NSRect contentsFrame = [self.contents frame];
+        NSRect boxFrame = [self.top_box frame];
+    
+        int offset = boxFrame.size.height + 10;
+        int result = offset + textSize.height + 5;
+  
+    
+        contentsFrame.size.height = textSize.height;
+        //contentsFrame.size.width = textSize.width;
+        contentsFrame.origin.y = 20;
+        contentsRect.size.height = textSize.height;
+        //contentsRect.size.width = textSize.width;
+    
+  
+        result = MAX(POPUP_HEIGHT, result);
+    
+        NSWindow *panel = [self window];
+        NSRect statusRect = [self statusRectForWindow:panel];
+        NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
+
+        NSRect panelRect = [panel frame];
+        panelRect.size.width = MAX(PANEL_WIDTH, textSize.width + 50);
+        panelRect.size.height = result;
+        panelRect.origin.x = roundf(NSMaxX(statusRect) - NSWidth(panelRect));
+        panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect);
+    
+        if (NSMaxX(panelRect) > (NSMaxX(screenRect))) {
+            panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect));
+        }
+    
+        //[self.contents setFrame:contentsFrame];
+        //[self.contents setBounds:contentsRect];
+        [panel setFrame:panelRect display:YES];
+        
+        NSLog(@"contentsframe: %@", NSStringFromRect(contentsFrame));
+        NSLog(@"contentsrect: %@", NSStringFromRect(contentsRect));
+    
+        [panel setAlphaValue:1];
+    }
+}
+
+- (void)setContentsText:(NSArray *)line_array {
+    NSString *text = [line_array componentsJoinedByString:@"\n"];
+    [self.contents setStringValue:text];
+
+    [self panelSize];
 }
 
 #pragma mark - Public methods
 
 - (NSRect)statusRectForWindow:(NSWindow *)window
 {
-    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
     NSRect statusRect = NSZeroRect;
     
-    StatusItemView *statusItemView = nil;
-    if ([self.delegate respondsToSelector:@selector(statusItemViewForPanelController:)])
-    {
-        statusItemView = [self.delegate statusItemViewForPanelController:self];
-    }
+    StatusItemView *statusItemView = [self.delegate statusItemViewForPanelController:self];
+
+    statusRect = statusItemView.globalRect;
+    statusRect.origin.y = NSMinY(statusRect) - NSHeight(statusRect);
     
-    if (statusItemView)
-    {
-        statusRect = statusItemView.globalRect;
-        statusRect.origin.y = NSMinY(statusRect) - NSHeight(statusRect);
-    }
-    else
-    {
-        statusRect.size = NSMakeSize(STATUS_ITEM_VIEW_WIDTH, [[NSStatusBar systemStatusBar] thickness]);
-        statusRect.origin.x = roundf((NSWidth(screenRect) - NSWidth(statusRect)) / 2);
-        statusRect.origin.y = NSHeight(screenRect) - NSHeight(statusRect) * 2;
-    }
     return statusRect;
 }
 
@@ -192,47 +202,17 @@
 {
     NSWindow *panel = [self window];
     
-    NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
+        
     NSRect statusRect = [self statusRectForWindow:panel];
-    
-    NSRect panelRect = [panel frame];
-    panelRect.size.width = PANEL_WIDTH;
-    panelRect.origin.x = roundf(NSMidX(statusRect) - NSWidth(panelRect) / 2);
-    panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect);
-    
-    if (NSMaxX(panelRect) > (NSMaxX(screenRect) - ARROW_HEIGHT))
-        panelRect.origin.x -= NSMaxX(panelRect) - (NSMaxX(screenRect) - ARROW_HEIGHT);
-    
+
     [NSApp activateIgnoringOtherApps:NO];
     [panel setAlphaValue:0];
     [panel setFrame:statusRect display:YES];
     [panel makeKeyAndOrderFront:nil];
     
-    NSTimeInterval openDuration = OPEN_DURATION;
+    [self panelSize];
     
-    NSEvent *currentEvent = [NSApp currentEvent];
-    if ([currentEvent type] == NSLeftMouseDown)
-    {
-        NSUInteger clearFlags = ([currentEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask);
-        BOOL shiftPressed = (clearFlags == NSShiftKeyMask);
-        BOOL shiftOptionPressed = (clearFlags == (NSShiftKeyMask | NSAlternateKeyMask));
-        if (shiftPressed || shiftOptionPressed)
-        {
-            openDuration *= 10;
-            
-            if (shiftOptionPressed)
-                NSLog(@"Icon is at %@\n\tMenu is on screen %@\n\tWill be animated to %@",
-                      NSStringFromRect(statusRect), NSStringFromRect(screenRect), NSStringFromRect(panelRect));
-        }
-    }
-    
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:openDuration];
-    [[panel animator] setFrame:panelRect display:YES];
-    [[panel animator] setAlphaValue:1];
-    [NSAnimationContext endGrouping];
-    
-    [panel performSelector:@selector(makeFirstResponder:) withObject:self.searchField afterDelay:openDuration];
+    [panel makeFirstResponder:self.entry_box];
 }
 
 - (void)closePanel
@@ -246,6 +226,20 @@
         
         [self.window orderOut:nil];
     });
+}
+
+- (IBAction)textFieldEnter:(NSTextField*)sender {
+    [self.trackerInterface doCommand];
+}
+
+- (void)navigateHistory:(NSString *)direction {
+    [self.trackerInterface navigateHistory:direction];
+}
+
+
+- (void) hotkeyWithEvent:(NSEvent *)hkEvent {
+    NSLog(@"Hotkey event: %@", hkEvent);
+    self.hasActivePanel = !self.hasActivePanel;
 }
 
 @end

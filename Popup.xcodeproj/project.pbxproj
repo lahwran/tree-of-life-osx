@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E0D84A41646E8B700424D4B /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0D84A11646E8B700424D4B /* DDHotKeyCenter.m */; };
+		4E0D84A51646E8B700424D4B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0D84A31646E8B700424D4B /* GCDAsyncSocket.m */; };
+		4E20D07815E9F2C60040FB3A /* TrackerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D07715E9F2C60040FB3A /* TrackerInterface.m */; };
+		4E3845DA15FB0BAC00091A48 /* TextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3845D915FB0BAC00091A48 /* TextFieldDelegate.m */; };
+		4EEA143C15F10AEC00E45B0A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEA143B15F10AEB00E45B0A /* Security.framework */; };
+		4EFA3B411618771000C3C0E4 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFA3B401618771000C3C0E4 /* Carbon.framework */; };
 		DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
 		DD4F7C1513C30F9F00825C6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F7C1413C30F9F00825C6E /* main.m */; };
 		DD4F7C1C13C30F9F00825C6E /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F7C1B13C30F9F00825C6E /* ApplicationDelegate.m */; };
@@ -22,6 +28,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E0D84A01646E8B700424D4B /* DDHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDHotKeyCenter.h; sourceTree = "<group>"; };
+		4E0D84A11646E8B700424D4B /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
+		4E0D84A21646E8B700424D4B /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		4E0D84A31646E8B700424D4B /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		4E20D07615E9F2C60040FB3A /* TrackerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackerInterface.h; sourceTree = "<group>"; };
+		4E20D07715E9F2C60040FB3A /* TrackerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackerInterface.m; sourceTree = "<group>"; };
+		4E3845D815FB0BAC00091A48 /* TextFieldDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldDelegate.h; sourceTree = "<group>"; };
+		4E3845D915FB0BAC00091A48 /* TextFieldDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldDelegate.m; sourceTree = "<group>"; };
+		4EEA143B15F10AEB00E45B0A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4EFA3B401618771000C3C0E4 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		DD4F7C0413C30F9F00825C6E /* Popup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4F7C0813C30F9F00825C6E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD4F7C0B13C30F9F00825C6E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -53,6 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EFA3B411618771000C3C0E4 /* Carbon.framework in Frameworks */,
+				4EEA143C15F10AEC00E45B0A /* Security.framework in Frameworks */,
 				DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,6 +78,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E0D84A61646E8C200424D4B /* Foreign */ = {
+			isa = PBXGroup;
+			children = (
+				4E0D84A01646E8B700424D4B /* DDHotKeyCenter.h */,
+				4E0D84A11646E8B700424D4B /* DDHotKeyCenter.m */,
+				4E0D84A21646E8B700424D4B /* GCDAsyncSocket.h */,
+				4E0D84A31646E8B700424D4B /* GCDAsyncSocket.m */,
+			);
+			name = Foreign;
+			sourceTree = "<group>";
+		};
 		DD4F7BF913C30F9F00825C6E = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +111,8 @@
 		DD4F7C0713C30F9F00825C6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EFA3B401618771000C3C0E4 /* Carbon.framework */,
+				4EEA143B15F10AEB00E45B0A /* Security.framework */,
 				DD4F7C0B13C30F9F00825C6E /* AppKit.framework */,
 				DD4F7C0C13C30F9F00825C6E /* CoreData.framework */,
 				DD4F7C0D13C30F9F00825C6E /* Foundation.framework */,
@@ -93,6 +124,7 @@
 		DD4F7C0E13C30F9F00825C6E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4E0D84A61646E8C200424D4B /* Foreign */,
 				DD4F7C2613C311DF00825C6E /* Controllers */,
 				DD4F7C3913C317EC00825C6E /* Views */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
@@ -119,6 +151,10 @@
 				DD4F7C3713C317A500825C6E /* MenubarController.m */,
 				DD4F7C3D13C318D600825C6E /* PanelController.h */,
 				DD4F7C3E13C318D600825C6E /* PanelController.m */,
+				4E3845D815FB0BAC00091A48 /* TextFieldDelegate.h */,
+				4E3845D915FB0BAC00091A48 /* TextFieldDelegate.m */,
+				4E20D07615E9F2C60040FB3A /* TrackerInterface.h */,
+				4E20D07715E9F2C60040FB3A /* TrackerInterface.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -188,12 +224,16 @@
 /* Begin PBXProject section */
 		DD4F7BFB13C30F9F00825C6E /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+			};
 			buildConfigurationList = DD4F7BFE13C30F9F00825C6E /* Build configuration list for PBXProject "Popup" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				English,
 			);
 			mainGroup = DD4F7BF913C30F9F00825C6E;
 			productRefGroup = DD4F7C0513C30F9F00825C6E /* Products */;
@@ -231,6 +271,10 @@
 				DD4F7C3F13C318D600825C6E /* PanelController.m in Sources */,
 				DD4F7C4413C31BD200825C6E /* Panel.m in Sources */,
 				DD4F7C4713C3208500825C6E /* BackgroundView.m in Sources */,
+				4E20D07815E9F2C60040FB3A /* TrackerInterface.m in Sources */,
+				4E3845DA15FB0BAC00091A48 /* TextFieldDelegate.m in Sources */,
+				4E0D84A41646E8B700424D4B /* DDHotKeyCenter.m in Sources */,
+				4E0D84A51646E8B700424D4B /* GCDAsyncSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +342,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Popup/Popup-Prefix.pch";
 				INFOPLIST_FILE = "Popup/Popup-Info.plist";
@@ -310,6 +355,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Popup/Popup-Prefix.pch";
 				INFOPLIST_FILE = "Popup/Popup-Info.plist";

@@ -1,11 +1,11 @@
-#define ARROW_WIDTH 12
-#define ARROW_HEIGHT 8
+#define ARROW_WIDTH 20
+#define ARROW_HEIGHT 20
 
 @interface BackgroundView : NSView
 {
-    NSInteger _arrowX;
+    NSInteger _panelCenterX;
 }
 
-@property (nonatomic, assign) NSInteger arrowX;
+@property (nonatomic, assign) NSInteger panelCenterX;
 
 @end
