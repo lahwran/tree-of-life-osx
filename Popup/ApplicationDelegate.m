@@ -1,5 +1,5 @@
 #import "ApplicationDelegate.h"
-#import "TrackerInterface.h"
+#import "Client.h"
 #import <Carbon/Carbon.h>
 
 @implementation ApplicationDelegate
@@ -8,6 +8,7 @@
 @synthesize menubarController = _menubarController;
 @synthesize client = _client;
 @synthesize socket = _socket;
+@synthesize jsapi = _jsapi;
 
 #pragma mark -
 
@@ -37,6 +38,7 @@ void *kContextActivePanel = &kContextActivePanel;
     // Install icon into the menu bar
     self.menubarController = [[MenubarController alloc] init];
     
+    
     self.hotkey = [[DDHotKeyCenter alloc] init];
     if (![self.hotkey registerHotKeyWithKeyCode:kVK_Escape modifierFlags:(NSCommandKeyMask) target:self.panelController action:@selector(hotkeyWithEvent:) object:nil]) {
         NSLog(@"unable to register hotkey");
@@ -44,15 +46,11 @@ void *kContextActivePanel = &kContextActivePanel;
         NSLog(@"registered hotkey");
     }
 
-    self.client = [[TrackerInterface alloc] initWithMenuBar:self.menubarController withPanel:self.panelController];
-    self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self.client delegateQueue:dispatch_get_main_queue()];
-    NSError *err = nil;
-    if (![self.socket connectToHost:@"127.0.0.1" onPort:18081 error:&err])
-    {
-        // If there was an error, it's likely something like "already connected" or "no delegate set"
-        NSLog(@"I goofed: %@", err);
-    }
-    [self.client connectionBegan:self.socket];
+    self.panelController.hasActivePanel = YES;
+}
+
+- (void)panelready {
+    self.jsapi = [[JSAPI alloc] init:self.menubarController panel:self.panelController];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender

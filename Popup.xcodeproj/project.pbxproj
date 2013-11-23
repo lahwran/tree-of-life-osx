@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E060C221658E4A5009BEF82 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9FA8AE165875EC004BF8AA /* WebKit.framework */; };
 		4E0D84A41646E8B700424D4B /* DDHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0D84A11646E8B700424D4B /* DDHotKeyCenter.m */; };
 		4E0D84A51646E8B700424D4B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0D84A31646E8B700424D4B /* GCDAsyncSocket.m */; };
-		4E20D07815E9F2C60040FB3A /* TrackerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D07715E9F2C60040FB3A /* TrackerInterface.m */; };
+		4E20D07815E9F2C60040FB3A /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D07715E9F2C60040FB3A /* Client.m */; };
 		4E3845DA15FB0BAC00091A48 /* TextFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3845D915FB0BAC00091A48 /* TextFieldDelegate.m */; };
 		4EEA143C15F10AEC00E45B0A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEA143B15F10AEB00E45B0A /* Security.framework */; };
+		4EF583C7165977AD0045356F /* JSAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF583C6165977AD0045356F /* JSAPI.m */; };
 		4EFA3B411618771000C3C0E4 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFA3B401618771000C3C0E4 /* Carbon.framework */; };
 		DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
 		DD4F7C1513C30F9F00825C6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F7C1413C30F9F00825C6E /* main.m */; };
@@ -32,11 +34,14 @@
 		4E0D84A11646E8B700424D4B /* DDHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDHotKeyCenter.m; sourceTree = "<group>"; };
 		4E0D84A21646E8B700424D4B /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
 		4E0D84A31646E8B700424D4B /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
-		4E20D07615E9F2C60040FB3A /* TrackerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackerInterface.h; sourceTree = "<group>"; };
-		4E20D07715E9F2C60040FB3A /* TrackerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackerInterface.m; sourceTree = "<group>"; };
+		4E20D07615E9F2C60040FB3A /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		4E20D07715E9F2C60040FB3A /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		4E3845D815FB0BAC00091A48 /* TextFieldDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldDelegate.h; sourceTree = "<group>"; };
 		4E3845D915FB0BAC00091A48 /* TextFieldDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldDelegate.m; sourceTree = "<group>"; };
+		4E9FA8AE165875EC004BF8AA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		4EEA143B15F10AEB00E45B0A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4EF583C5165977AD0045356F /* JSAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSAPI.h; sourceTree = "<group>"; };
+		4EF583C6165977AD0045356F /* JSAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSAPI.m; sourceTree = "<group>"; };
 		4EFA3B401618771000C3C0E4 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		DD4F7C0413C30F9F00825C6E /* Popup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4F7C0813C30F9F00825C6E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -69,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E060C221658E4A5009BEF82 /* WebKit.framework in Frameworks */,
 				4EFA3B411618771000C3C0E4 /* Carbon.framework in Frameworks */,
 				4EEA143C15F10AEC00E45B0A /* Security.framework in Frameworks */,
 				DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */,
@@ -111,6 +117,7 @@
 		DD4F7C0713C30F9F00825C6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4E9FA8AE165875EC004BF8AA /* WebKit.framework */,
 				4EFA3B401618771000C3C0E4 /* Carbon.framework */,
 				4EEA143B15F10AEB00E45B0A /* Security.framework */,
 				DD4F7C0B13C30F9F00825C6E /* AppKit.framework */,
@@ -153,8 +160,10 @@
 				DD4F7C3E13C318D600825C6E /* PanelController.m */,
 				4E3845D815FB0BAC00091A48 /* TextFieldDelegate.h */,
 				4E3845D915FB0BAC00091A48 /* TextFieldDelegate.m */,
-				4E20D07615E9F2C60040FB3A /* TrackerInterface.h */,
-				4E20D07715E9F2C60040FB3A /* TrackerInterface.m */,
+				4E20D07615E9F2C60040FB3A /* Client.h */,
+				4E20D07715E9F2C60040FB3A /* Client.m */,
+				4EF583C5165977AD0045356F /* JSAPI.h */,
+				4EF583C6165977AD0045356F /* JSAPI.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -271,10 +280,11 @@
 				DD4F7C3F13C318D600825C6E /* PanelController.m in Sources */,
 				DD4F7C4413C31BD200825C6E /* Panel.m in Sources */,
 				DD4F7C4713C3208500825C6E /* BackgroundView.m in Sources */,
-				4E20D07815E9F2C60040FB3A /* TrackerInterface.m in Sources */,
+				4E20D07815E9F2C60040FB3A /* Client.m in Sources */,
 				4E3845DA15FB0BAC00091A48 /* TextFieldDelegate.m in Sources */,
 				4E0D84A41646E8B700424D4B /* DDHotKeyCenter.m in Sources */,
 				4E0D84A51646E8B700424D4B /* GCDAsyncSocket.m in Sources */,
+				4EF583C7165977AD0045356F /* JSAPI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

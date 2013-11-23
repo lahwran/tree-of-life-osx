@@ -2,7 +2,7 @@
 #import "BackgroundView.h"
 #import "StatusItemView.h"
 #import "MenubarController.h"
-#import "TrackerInterface.h"
+#import "Client.h"
 #import "TextFieldDelegate.h"
 
 #define OPEN_DURATION 1
@@ -20,10 +20,6 @@
 
 @synthesize backgroundView = _backgroundView;
 @synthesize delegate = _delegate;
-@synthesize contents = _contents;
-@synthesize entry_box = _entry_box;
-@synthesize top_box = _top_box;
-@synthesize trackerInterface = _trackerInterface;
 
 @synthesize entry_box_delegate = _entry_box_delegate;
 
@@ -36,13 +32,9 @@
     if (self != nil)
     {
         _delegate = delegate;
+
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSControlTextDidChangeNotification object:self.entry_box];
 }
 
 #pragma mark -
@@ -59,12 +51,10 @@
     [panel setBackgroundColor:[NSColor clearColor]];
     
     // Resize panel
-    [self panelSize];
     
-    // Follow search string
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateInput) name:NSControlTextDidChangeNotification object:self.entry_box];
-    _entry_box_delegate = [[TextFieldDelegate alloc] initWithDelegate:self];
-    self.entry_box.delegate = _entry_box_delegate;
+    [self.delegate performSelector:@selector(panelready)];
+    [self.web_view setMainFrameURL:@"file:///Users/lahwran/todo_tracker/todo_tracker/ui/ui.html"];
+    [self panelSize];
 }
 
 #pragma mark - Public accessors
@@ -79,9 +69,7 @@
     if (_hasActivePanel != flag)
     {
         _hasActivePanel = flag;
-        if (self.trackerInterface != nil) {
-            [self.trackerInterface indicateDisplay:_hasActivePanel];
-        }
+        
         
         if (_hasActivePanel)
         {
@@ -116,49 +104,16 @@
     self.hasActivePanel = NO;
 }
 
-- (void)updateInput
-{
-    NSString *input = [self.entry_box stringValue];
-    self.trackerInterface.input = input;
-    
-}
-
-- (void)setInput:(NSString*) newValue {
-    if (![[self.entry_box stringValue] isEqualToString:newValue]) {
-        [self.entry_box setStringValue:newValue];
-    }
-}
-
 - (void)panelSize {
+    // http://jsfiddle.net/NAPr2/
     for (int i=0; i<2; i++) {
-        NSTextFieldCell *cell = [self.contents cell];
-    
-        NSSize textSize = [cell cellSizeForBounds:NSMakeRect(0, 0, FLT_MAX, FLT_MAX)];
-        
-        NSRect contentsRect = [self.contents bounds];
-        NSRect contentsFrame = [self.contents frame];
-        NSRect boxFrame = [self.top_box frame];
-    
-        int offset = boxFrame.size.height + 10;
-        int result = offset + textSize.height + 5;
-  
-    
-        contentsFrame.size.height = textSize.height;
-        //contentsFrame.size.width = textSize.width;
-        contentsFrame.origin.y = 20;
-        contentsRect.size.height = textSize.height;
-        //contentsRect.size.width = textSize.width;
-    
-  
-        result = MAX(POPUP_HEIGHT, result);
-    
         NSWindow *panel = [self window];
         NSRect statusRect = [self statusRectForWindow:panel];
         NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
 
         NSRect panelRect = [panel frame];
-        panelRect.size.width = MAX(PANEL_WIDTH, textSize.width + 50);
-        panelRect.size.height = result;
+        panelRect.size.width = 800;
+        panelRect.size.height = 700;
         panelRect.origin.x = roundf(NSMaxX(statusRect) - NSWidth(panelRect));
         panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect);
     
@@ -169,19 +124,9 @@
         //[self.contents setFrame:contentsFrame];
         //[self.contents setBounds:contentsRect];
         [panel setFrame:panelRect display:YES];
-        
-        NSLog(@"contentsframe: %@", NSStringFromRect(contentsFrame));
-        NSLog(@"contentsrect: %@", NSStringFromRect(contentsRect));
     
         [panel setAlphaValue:1];
     }
-}
-
-- (void)setContentsText:(NSArray *)line_array {
-    NSString *text = [line_array componentsJoinedByString:@"\n"];
-    [self.contents setStringValue:text];
-
-    [self panelSize];
 }
 
 #pragma mark - Public methods
@@ -212,11 +157,15 @@
     
     [self panelSize];
     
-    [panel makeFirstResponder:self.entry_box];
+    [panel makeFirstResponder:self.web_view];
+    [self.jsapi performSelector:@selector(panel_shown)];
+    [panel makeFirstResponder:self.web_view];
+
 }
 
 - (void)closePanel
 {
+    [self.jsapi performSelector:@selector(panel_hidden)];
     [NSAnimationContext beginGrouping];
     [[NSAnimationContext currentContext] setDuration:CLOSE_DURATION];
     [[[self window] animator] setAlphaValue:0];
@@ -226,14 +175,6 @@
         
         [self.window orderOut:nil];
     });
-}
-
-- (IBAction)textFieldEnter:(NSTextField*)sender {
-    [self.trackerInterface doCommand];
-}
-
-- (void)navigateHistory:(NSString *)direction {
-    [self.trackerInterface navigateHistory:direction];
 }
 
 

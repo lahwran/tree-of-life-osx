@@ -6,6 +6,7 @@
 @synthesize max_width = _max_width;
 @synthesize statusItemView = _statusItemView;
 @synthesize text = _text;
+@synthesize alerts = _alerts;
 
 #pragma mark -
 
@@ -80,6 +81,7 @@
         if (element_offset >= [new_text count]) {
             parenttext = @"error: ";
             maintext = @"text too long";
+            
             NSLog(@"text too long");
             break;
         }

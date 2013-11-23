@@ -8,6 +8,7 @@
 @private
     StatusItemView *_statusItemView;
     NSArray *text;
+    NSArray *alerts;
     int _max_width;
 }
 
@@ -16,6 +17,7 @@
 @property (nonatomic, strong, readonly) NSStatusItem *statusItem;
 @property (nonatomic, strong, readonly) StatusItemView *statusItemView;
 @property (retain, nonatomic) NSArray *text;
+@property (retain, nonatomic) NSArray *alerts;
 
 
 @end
