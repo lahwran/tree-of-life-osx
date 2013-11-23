@@ -3,6 +3,7 @@
 #import "WebKit/WebView.h"
 #import "WebKit/WebFrame.h"
 #import "WebKit/WebScriptObject.h"
+#import "WebKit/WebPreferences.h"
 
 #define TD_DEBUG YES
 

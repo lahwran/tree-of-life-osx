@@ -52,6 +52,13 @@
     
     // Resize panel
     
+    [[NSURLCache sharedURLCache] setMemoryCapacity:0];
+    [[NSURLCache sharedURLCache] setDiskCapacity:0];
+    WebPreferences *prefs = [self.web_view preferences];
+    [prefs setUsesPageCache:NO];
+    [prefs setCacheModel:WebCacheModelDocumentViewer];
+    
+    
     [self.delegate performSelector:@selector(panelready)];
     [self.web_view setMainFrameURL:@"http://127.0.0.1:18082/ui.html"];
     [self panelSize];
@@ -180,7 +187,6 @@
 
 
 - (void) hotkeyWithEvent:(NSEvent *)hkEvent {
-    NSLog(@"Hotkey event: %@", hkEvent);
     self.hasActivePanel = !self.hasActivePanel;
 }
 

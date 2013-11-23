@@ -27,6 +27,9 @@
     self.jsapi = jsapi;
     self.status = @"not connected";
     self.delay = 0.1;
+    
+    NSURLCache *Cache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
+    [NSURLCache setSharedURLCache:Cache];
         
     return self;
 }
@@ -74,9 +77,6 @@
 - (void)socket:(GCDAsyncSocket*)socket didReadData:(NSData*)data withTag:(long)tag {
     NSString *text = [[NSString alloc] initWithData:data encoding:ENCODING];
     text = [text stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\n"]];
-    if (TD_DEBUG) {
-        NSLog(@"received text: %@", text);
-    }
     [self.jsapi performSelector:@selector(message_received:) withObject:text];
     [self waitForNext];
 }
@@ -84,9 +84,6 @@
 // ------------------------
 
 - (void)setStatus:(NSString *)new_status {
-    if (TD_DEBUG) {
-        NSLog(@"setting status: %@", new_status);
-    }
     _status = new_status;
     [self.jsapi performSelector:@selector(status_changed:) withObject:new_status];
 }
