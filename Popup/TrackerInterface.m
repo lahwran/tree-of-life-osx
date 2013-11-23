@@ -120,6 +120,10 @@
         if (new_max_width != nil) {
             self.menu.max_width = [new_max_width intValue];
         }
+        NSNumber *should_quit = [to_update objectForKey:@"should_quit"];
+        if (should_quit != nil && [should_quit boolValue]) {
+            [NSApp terminate: nil];
+        }
     }
     [self waitForNext];
 }
