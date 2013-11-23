@@ -46,7 +46,7 @@ void *kContextActivePanel = &kContextActivePanel;
         NSLog(@"registered hotkey");
     }
 
-    self.panelController.hasActivePanel = YES;
+    [NSBundle loadNibNamed:@"Panel" owner:self.panelController];
 }
 
 - (void)panelready {

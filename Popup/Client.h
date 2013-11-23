@@ -31,5 +31,6 @@
 - (void)waitForNext;
 
 - (void)sendline:(NSString*)data;
+- (void)reconnect;
 
 @end

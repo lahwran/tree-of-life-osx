@@ -53,7 +53,7 @@
     // Resize panel
     
     [self.delegate performSelector:@selector(panelready)];
-    [self.web_view setMainFrameURL:@"file:///Users/lahwran/todo_tracker/todo_tracker/ui/ui.html"];
+    [self.web_view setMainFrameURL:@"http://127.0.0.1:18082/ui.html"];
     [self panelSize];
 }
 
@@ -105,15 +105,16 @@
 }
 
 - (void)panelSize {
-    // http://jsfiddle.net/NAPr2/
+    NSNumber *width = [[self.web_view windowScriptObject] evaluateWebScript:@"on_calculate_width()"];
+    NSNumber *height = [[self.web_view windowScriptObject] evaluateWebScript:@"on_calculate_height()"];
     for (int i=0; i<2; i++) {
         NSWindow *panel = [self window];
         NSRect statusRect = [self statusRectForWindow:panel];
         NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
 
         NSRect panelRect = [panel frame];
-        panelRect.size.width = 800;
-        panelRect.size.height = 700;
+        panelRect.size.width = [width integerValue];
+        panelRect.size.height = [height integerValue] + 5;
         panelRect.origin.x = roundf(NSMaxX(statusRect) - NSWidth(panelRect));
         panelRect.origin.y = NSMaxY(statusRect) - NSHeight(panelRect);
     

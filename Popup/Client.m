@@ -57,6 +57,7 @@
 
 - (void)socketDidDisconnect:(GCDAsyncSocket*)socket withError:(NSError *)err{
     NSLog(@"connection error: %@", err);
+    [self.jsapi performSelector:@selector(disconnected)];
     self.status = [NSString stringWithFormat:@"disconnected (retry in %.01f)", self.delay];
     [self performSelector:@selector(attemptReconnect) withObject:nil afterDelay:self.delay];
     if (self.delay < 5.0) {
@@ -95,6 +96,12 @@
     [messagedata appendData:[@"\n" dataUsingEncoding:ENCODING]];
     
     [self.socket writeData:messagedata withTimeout:-1 tag:0];
+}
+
+- (void)reconnect {
+    if ([self.socket isConnected]) {
+        [self.socket disconnect];
+    }
 }
 
 @end
