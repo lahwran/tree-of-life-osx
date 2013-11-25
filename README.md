@@ -1,7 +1,5 @@
-# Popup
+# treeoflife osx integration
 
-Popup project is a demo with custom popover window appearing from the icon in the Mac OS X status bar.
+Based on Popup. Haven't bothered to rename yet, but is changed so dramatically that I should.
 
-# License
-
-Popup is licensed under the BSD license.
+Popup is licensed under "the" BSD license (though, I don't know which one).
